@@ -1,35 +1,34 @@
-import React, {Component} from "react";
+import {useState} from "react";
 import PropTypes from "prop-types";
 // eslint-disable-next-line no-unused-vars
-import {ContactLable, ContactFormCard, formDiv, FormBtn } from './ContactForm.styled'
+import {ContactLable, ContactFormCard, FormDiv, FormBtn } from './ContactForm.styled'
 
-class ContactForm extends Component{
-    static propTypes = {
-        onSubmit: PropTypes.func.isRequired,
-     }
-    state = {        
-        name: '',
-        number: ''
+export default function ContactForm ({onSubmit}) {
+    const [name, setName] = useState('');
+    const [number, setNumber] = useState('');
+
+    const handleChangeName = e => {
+            setName(e.currentTarget.value);
     };
-    handleChange = e => {
-        const {name, value} = e.currentTarget;
-        this.setState({[name]: value});
-    };
-    handleSubmit = e => {
-        e.preventDefault();
-        this.props.onSubmit(this.state);
-        this.setState({name: '', number: ''})
+    const handleChangeNumber = e => {        
+            setNumber(e.currentTarget.value);
     };
 
-    render() {
+
+    const handleSubmit = e => {
+        e.preventDefault(); 
+        onSubmit({name, number})       
+        setName('');
+        setNumber('');
+    };
         return(
-            <formDiv>                
+            <FormDiv>                
                 <ContactFormCard            
-                onSubmit={this.handleSubmit}>
+                onSubmit={handleSubmit}>
                     <ContactLable> Name: 
                     <input
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={name}
+                        onChange={handleChangeName}
                             type="text"
                             name="name"
                             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -39,8 +38,8 @@ class ContactForm extends Component{
                     </ContactLable>
                     <ContactLable> Number: 
                     <input
-                    value={this.state.number}
-                    onChange={this.handleChange}
+                    value={number}
+                    onChange={handleChangeNumber}
                         type="tel"
                         name="number"
                         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -55,9 +54,13 @@ class ContactForm extends Component{
                 </FormBtn>
                 </ContactFormCard>
               
-            </formDiv>
+            </FormDiv>
         );
-    }
 }
+ContactForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+ }
 
-export default ContactForm
+
+
+   

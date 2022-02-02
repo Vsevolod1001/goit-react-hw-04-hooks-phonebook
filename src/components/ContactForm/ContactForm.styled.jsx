@@ -14,7 +14,7 @@ export const ContactFormCard = styled.form`
     padding-top: 30px;
 `;
 
-export const formDiv = styled.div` 
+export const FormDiv = styled.div` 
     margin-bottom: 20px;
 `;
 export const FormBtn = styled.button`
